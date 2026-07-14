@@ -1,0 +1,59 @@
+version: 2
+
+project_name: ovftop
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: ovftop
+    main: ./cmd/ovftop
+    binary: ovftop
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s -w
+      - -X github.com/mousavi-azure/ovftop/internal/version.Version={{ .Version }}
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - id: ovftop
+    formats: [tar.gz]
+    name_template: >-
+      {{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    files:
+      - README.md
+      - LICENSE
+      - CHANGELOG.md
+      - install.sh
+
+checksum:
+  name_template: "checksums.txt"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+
+release:
+  github:
+    owner: mousavi-azure
+    name: ovftop
+  header: |
+    See [CHANGELOG.md](https://github.com/mousavi-azure/ovftop/blob/main/CHANGELOG.md) for the full history.
+
+    **Requires VMware's official `ovftool`** to be installed separately and on your `PATH` — OVFTOP drives it, it doesn't replace it. See the README's Requirements section.
+  name_template: "v{{ .Version }}"

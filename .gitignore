@@ -1,0 +1,24 @@
+# Build artifacts
+/ovftop
+/ovftools
+/dist/
+*.exe
+*.test
+
+# VMware's official ovftool bundle — proprietary, licensed separately.
+# See README.md "Requirements" for where to download it.
+VMware-ovftool-*.zip
+/opt/ovftool/
+
+# App runtime state (matches internal/config/paths.go's appDirName)
+# — useful when testing a locally-built binary from within the repo.
+.ovftop/
+
+# Editors / OS cruft
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Local scratch
+/tmp/
