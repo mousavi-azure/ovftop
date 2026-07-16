@@ -244,12 +244,20 @@ func (a *App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return a, refreshCmd(a.client)
 
 	case dashboard.ExportRequestedMsg:
+		datacenter := msg.Datacenter
+		if !a.client.IsVC() {
+			// ovftool's vi:// locator wants a bare "host/VMName" path for a
+			// direct ESXi connection; ESXi's own implicit "ha-datacenter"
+			// name (what SelectedDatacenter reports here) isn't a valid
+			// segment in that form and breaks the locator.
+			datacenter = ""
+		}
 		a.exportScreen = export.New(a.styles, export.Params{
 			Hostname:   a.activeProfile.Hostname,
 			Port:       a.activeProfile.Port,
 			Username:   a.activeProfile.Username,
 			Password:   a.password,
-			Datacenter: msg.Datacenter,
+			Datacenter: datacenter,
 			VMName:     msg.Name,
 		})
 		a.exportScreen.SetSize(a.width, a.height)

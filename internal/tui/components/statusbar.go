@@ -3,6 +3,8 @@ package components
 import (
 	"strings"
 
+	"github.com/charmbracelet/lipgloss"
+
 	"github.com/mousavi-azure/ovftop/internal/tui/theme"
 )
 
@@ -21,6 +23,20 @@ type KeyHint struct {
 // being hidden, and a hairline gap between buttons keeps them from
 // visually merging into a single block.
 func RenderStatusBar(styles theme.Styles, width int, hints []KeyHint) string {
+	full := renderStatusBarButtons(styles, hints, true)
+	// The full key+label row doesn't fit every terminal width. Rather than
+	// hard-truncating mid-button (which used to cut labels off right after
+	// their badge, e.g. "F6" with "Export" silently chopped away), fall
+	// back to a badge-only row once the labeled version overflows — every
+	// button stays intact, just without its text.
+	if width <= 0 || lipgloss.Width(full) <= width {
+		return styles.StatusBar.Width(width).Render(full)
+	}
+	compact := renderStatusBarButtons(styles, hints, false)
+	return styles.StatusBar.Width(width).MaxWidth(width).Render(compact)
+}
+
+func renderStatusBarButtons(styles theme.Styles, hints []KeyHint, withLabels bool) string {
 	var b strings.Builder
 	for i, h := range hints {
 		badge, label := styles.KeyBadge, styles.KeyLabel
@@ -28,10 +44,12 @@ func RenderStatusBar(styles theme.Styles, width int, hints []KeyHint) string {
 			badge, label = styles.KeyBadgeOff, styles.KeyLabelOff
 		}
 		b.WriteString(badge.Render(h.Key))
-		b.WriteString(label.Render(h.Label))
+		if withLabels {
+			b.WriteString(label.Render(h.Label))
+		}
 		if i < len(hints)-1 {
 			b.WriteString(styles.StatusBar.Render(" "))
 		}
 	}
-	return styles.StatusBar.Width(width).MaxWidth(width).Render(b.String())
+	return b.String()
 }

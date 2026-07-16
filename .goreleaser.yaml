@@ -52,6 +52,9 @@ release:
   github:
     owner: mousavi-azure
     name: ovftop
+  # Lets re-pushing an existing tag (e.g. after rewriting its commit)
+  # replace the prior release instead of failing with "already exists".
+  mode: replace
   header: |
     See [CHANGELOG.md](https://github.com/mousavi-azure/ovftop/blob/main/CHANGELOG.md) for the full history.
 

@@ -6,4 +6,4 @@ package version
 // -ldflags "-X github.com/mousavi-azure/ovftop/internal/version.Version=1.2.3" without touching
 // source. Bump MAJOR for breaking changes (config/profile format,
 // keybindings), MINOR for backwards-compatible features, PATCH for fixes.
-var Version = "1.0.0"
+var Version = "1.0.1"

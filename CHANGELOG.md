@@ -5,6 +5,13 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] — 2026-07-16
+
+### Fixed
+
+- Export (`F6`) failing against a standalone ESXi host with `Locator does not refer to an object`: the export locator was including ESXi's implicit `ha-datacenter` pseudo-datacenter in the `vi://` path, which `ovftool` rejects for direct ESXi connections. It now omits the datacenter segment for standalone ESXi, matching the Deploy wizard's existing locator behavior.
+- Bottom status bar silently truncating mid-button (e.g. showing `F6` with its `Export` label cut off) on terminals narrower than the full labeled row. It now falls back to a compact key-only row when the labeled row won't fit, instead of chopping a button in half.
+
 ## [1.0.0] — 2026-07-14
 
 Initial public release.
@@ -22,4 +29,5 @@ Initial public release.
 - In-app help screen (`F1`) with a full keybinding reference, and an activity log viewer (`F8`).
 - Cross-platform prebuilt binaries (Linux/macOS/Windows, amd64/arm64) published via GitHub Releases.
 
+[1.0.1]: https://github.com/mousavi-azure/ovftop/releases/tag/v1.0.1
 [1.0.0]: https://github.com/mousavi-azure/ovftop/releases/tag/v1.0.0
