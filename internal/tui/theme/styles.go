@@ -111,7 +111,7 @@ func New(p Palette) Styles {
 		Background(p.BorderBlur).
 		Padding(0, 1)
 	s.KeyLabelOff = lipgloss.NewStyle().
-		Foreground(p.Dim).
+		Foreground(p.Muted).
 		Background(p.BorderBlur).
 		Padding(0, 1)
 

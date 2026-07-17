@@ -5,6 +5,12 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] — 2026-07-17
+
+### Fixed
+
+- Disabled F5/F6 status bar labels were nearly unreadable (invisible on the Nord theme, low-contrast on the others): the disabled label style used the `Dim` color as foreground text, but `Dim` is meant only as a background fill, not readable text. It now uses `Muted`, the palette's readable secondary-text color, restoring proper contrast on all themes.
+
 ## [1.0.1] — 2026-07-16
 
 ### Fixed
@@ -29,5 +35,6 @@ Initial public release.
 - In-app help screen (`F1`) with a full keybinding reference, and an activity log viewer (`F8`).
 - Cross-platform prebuilt binaries (Linux/macOS/Windows, amd64/arm64) published via GitHub Releases.
 
+[1.0.2]: https://github.com/mousavi-azure/ovftop/releases/tag/v1.0.2
 [1.0.1]: https://github.com/mousavi-azure/ovftop/releases/tag/v1.0.1
 [1.0.0]: https://github.com/mousavi-azure/ovftop/releases/tag/v1.0.0
